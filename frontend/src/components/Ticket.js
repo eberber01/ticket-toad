@@ -4,7 +4,9 @@ import classes from "./Ticket.module.css";
 
 const Ticket = (props) => {
   const setViewTicketHandler = () => {
+    console.log(props._id)
     props.viewTicket({
+      _id: props._id,
       id: props.id,
       title: props.title,
       description: props.description,
@@ -14,16 +16,32 @@ const Ticket = (props) => {
       assigned: props.assigned,
     });
   };
+
+
+  const returnDescription = () => {
+   if(props.description.length > 105){
+     return props.description.slice(0, 105) + " ...."
+   } 
+   else{ return props.description}
+  }
+  
   return (
     <div className={classes.ticket}>
-      <div className={classes.ticket_time}>time created</div>
+      <div className={classes.ticket_time}>{props.date}</div>
       <div className={classes.ticket_titlecontainer}>
-        <div>{props.title}</div>
-        <div>{props.description}</div>
+        <div>
+          <h1 className={classes.ticket_title}>{props.title}</h1>
+        </div>
+        <div>{returnDescription()}</div>
       </div>
-      <div>status</div>
-      <div className={classes.ticket_open}>
-        <Button variant="success">Open</Button>
+      <div className={classes.ticket_statuscontainer}>
+        <div>{props.status}</div>
+
+      </div>
+      <div className={classes.ticket_button}>
+        <Button variant="success" onClick={setViewTicketHandler}>
+          Open
+        </Button>
       </div>
     </div>
   );

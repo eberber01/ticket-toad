@@ -1,0 +1,13 @@
+
+.create_container {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 2% 4% 2% 4%;
+    margin:  2% 5%;
+    border: whitesmoke;
+    border-style: solid;
+    border-width: .1rem;
+    box-shadow: 2px 2px 10px rgb(158, 157, 157);
+    border-radius: 10px;
+}

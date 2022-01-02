@@ -2,27 +2,20 @@
     background-color: rgb(255, 255, 255);
     display: flex;
     border-radius: 5px; 
-    margin: 1% 5%;
-    max-height: 50%;
-    min-height: 50%;
+    margin: 1% 5% 0% 5%;
     overflow: hidden;
     border: rgb(202, 200, 200);
     border-style: solid;
     border-width: .01rem;
     align-items: center;
-
+    height: 50px;
+    
+  
 
 }
 
 .ticket_time {
-    border-right: rgb(117, 112, 112);
-
-    border-style: solid;
-    border-top: none;
-    border-bottom: none;
-    border-left: none;
-    border-width: .1rem;
-    min-width: 20%;
+    width: 10%;
     overflow: hidden;
     text-align: center;
     
@@ -31,16 +24,38 @@
 .ticket_titlecontainer{
     display: flex;
     flex-direction: column;
-    border-right: rgb(238, 238, 238);
+    border: rgb(238, 238,238); 
     border-style: solid;
     border-width: .01rem;
-    padding-right: 20%;
-    border-top: none;
-    border-bottom: none;
-    border-left: none;
+    padding: 0% 0% 0% 2%;
+    width: 70%;
+    height: 100%;
     
 }
 
-.ticket_open {
-    
+.ticket_title{
+    font-size: 1.3rem;
+    margin: 0%;
+}
+
+.ticket_statuscontainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10%;
+    width: 15%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border: rgb(238, 238,238);
+    border-width: .01rem;
+    border-style: solid ;
+}
+.ticket_button {
+    width: 5%;
+    text-align: center;
+}
+
+
+@media (max-width: 800px) {
+
 }

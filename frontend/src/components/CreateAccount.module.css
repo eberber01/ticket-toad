@@ -1,0 +1,11 @@
+
+.createaccount_container{
+    margin: 5% 30%;
+    padding: 5%;
+    border: whitesmoke;
+    border-style: solid;
+    border-width: .1rem;
+    box-shadow: 2px 2px 10px rgb(158, 157, 157);
+    border-radius: 10px;
+
+}

@@ -1,5 +1,6 @@
-import react, { useState, useEffect } from "react";
-import classes from "./Login.module.css";
+
+import react, { useState } from "react";
+import classes from "./CreateAccount.module.css";
 
 import {
   Button,
@@ -13,23 +14,21 @@ import {
 import "react-bootstrap";
 import axios from "axios";
 
-const Login = (props) => {
+const CreateAccount = (props) => {
   const [enteredUsername, setEnteredUsername] = useState("Enter Email");
   const [enteredPassword, setEnteredPassword] = useState("Password");
-  const [loginAlert, setLoginAlert] = useState(false);
-
-
+  const [enteredName, setEnteredName] = useState("")
 
   const submitFormLogin = (e) => {
     e.preventDefault()
-     axios.post("http://localhost:4000/login",{
+     axios.post("http://localhost:4000/createAccount",{
        email: enteredUsername,
-       password: enteredPassword
+       password: enteredPassword,
+       name: enteredName
      }).then((response)=>{
-       if(response.data){
-
-      props.loginHandler(response.data);
-       }
+      
+      
+       
       
      }) 
   
@@ -46,9 +45,14 @@ const Login = (props) => {
     setEnteredPassword(event.target.value);
   };
 
+  const setEnteredNameHandler = (event) => {
+    event.preventDefault();
+    setEnteredName(event.target.value)
+  }
   return (
-    <div className={classes.login_container}>
+    <div className={classes.createaccount_container}>
       <Form className={classes.login_form} onSubmit={submitFormLogin}>
+          <div></div>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -66,19 +70,23 @@ const Login = (props) => {
             onChange={setEnteredPasswordHandler}
           />
         </Form.Group>
-          {loginAlert ? (<Alert variant="danger">Wrong password</Alert>):(<div></div>)}
+
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            placeholder="Name"
+            onChange={setEnteredNameHandler}
+          />
+        </Form.Group>
         <div>
           <Button variant="success" type="submit">
             Submit
           </Button>
         </div>
-
-        <Form.Text className="text-muted">
-          Not a user ? <a  className={classes.createaccount_link} onClick={props.createAccount}> Create an account </a>
-        </Form.Text>
       </Form>
     </div>
   );
 };
 
-export default Login;
+export default CreateAccount;

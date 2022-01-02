@@ -1,87 +1,104 @@
-import "./App.css";
+import classes from  "./App.module.css";
 import { Button, Row, Col, Navbar, Container, ButtonGroup } from "react-bootstrap";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import TicketContainer from "./components/TicketContainer";
+import HomePage from "./components/HomePage"
+import LoginNavbar from "./components/LoginNavbar"
+import LoggedInNavbar from "./components/LoggedInNavbar"
+import Dashboard from "./components/Dashboard"
+import { propTypes } from "react-bootstrap/esm/Image";
+import ComponentControl from "./components/ComponentControl";
+import Footer from "./components/Footer";
+import CreateAccount from "./components/CreateAccount";
 
-const fetchData = () => {
-  return axios.get("https://random-data-api.com/api/appliance/random_appliance")
-  .then((res)=>{
-    console.log(res);
-    const TICKETLIST = res.data
-  })
-  .catch((err) =>{
-    console.error(err);
-  })
-}
+
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userEmail, setUserEmail] = useState("")
+  const [team, setTeam] = useState(false);
   const [loginPage, setLoginPage] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false)
 
-  useEffect(()=> {
-    fetchData();
-  },[])
+
 
   const logoutHandler = () => {
     setUser(null);
   };
 
   const loginHandler = (username) => {
-    if (username != "Enter Email") {
-      setLoginPage(false);
-      setUser(username);
-    }
+      
+    setUser(username.name)
+    setUserEmail(username.email)
+    setTeam(username.team)
+    setLoginPage(false)
+          
+        
+      
   };
 
   const setLoginPageHandler = () => {
     setLoginPage(true);
+    setCreateAccount(false)
   };
 
-  const TICKETLIST = [
-    {
-      id: "001",
-      title: "Sales printer Malfunctioning",
-      description: "Sales printer is having troubles printing",
-      creator: "Eric",
-      time: "11:20",
-      status: "pending",
-      assigned: "Mario",
-    },
-  ];
+  const setCreateAccountHandler =()=>{
 
+    setCreateAccount(true);
+  }
+
+  const setTeamHandler = (teamId) =>{
+    setTeam(teamId)
+  }
+
+
+
+  //homepage
+  if(!loginPage && user == null){ 
   return (
-    <div className="App">
-      <Navbar variant="dark" bg="dark">
-        <Container variant="light">
-          <Navbar.Brand>Ticket Toad</Navbar.Brand>
-          <Navbar.Toggle />
-        </Container>
-        {user == null ? (
-          <Button variant="success" onClick={setLoginPageHandler}>
-            Login
-          </Button>
-        ) : (
-          <div>
-            <Navbar.Text>
-              Signed in as: <a href="#login">{user}</a>
-            </Navbar.Text>
-            <Button onClick={logoutHandler} variant="success">
-              Logout
-            </Button>
-          </div>
-        )}
-      </Navbar>
-      {user != null ? (
-        <TicketContainer ticketList={TICKETLIST} />
-      ) : (
-        <h1>This is the home page</h1>
-      )}
-      {loginPage ? <Login LoginHandler={loginHandler} /> : <div></div>}
+    <div className={classes.homepage}>
+      <LoginNavbar login={setLoginPageHandler}></LoginNavbar>
+      <HomePage></HomePage>
+      <Footer/>
     </div>
   );
+  } 
+
+
+
+  //login page
+  if(loginPage && user == null && !createAccount){
+    return(
+      <div>
+        <LoginNavbar login={setLoginPageHandler}></LoginNavbar>
+        <Login loginHandler={loginHandler} createAccount={setCreateAccountHandler}></Login>
+      </div>
+    )
+  }
+
+
+  //Logged in 
+  if(user != null){
+    return(
+      <div>
+        <ComponentControl teamId= {team} userName={user} userEmail={userEmail} logout={logoutHandler}/>
+      </div>
+    )
+  }
+
+  if(createAccount){
+    return(
+      <div>
+        
+        <LoginNavbar login={setLoginPageHandler}></LoginNavbar>
+        <CreateAccount></CreateAccount>
+      </div>
+    )
+
+  }
 }
 
 export default App;
