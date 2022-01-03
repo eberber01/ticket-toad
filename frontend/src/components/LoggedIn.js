@@ -7,7 +7,7 @@ import CreateTicket from "./CreateTicket";
 import CreateTeam from "./CreateTeam";
 import axios from "axios";
 
-const ComponentControl = (props) => {
+const LoggedIn = (props) => {
   const [dashboard, setDashboard] = useState(true);
   const [ticketContainer, setTicketContainer] = useState(false);
   const [searchTickets, setSearchTickets] = useState(false);
@@ -99,4 +99,4 @@ const ComponentControl = (props) => {
   }
 };
 
-export default ComponentControl;
+export default LoggedIn;

@@ -8,35 +8,71 @@ import FullTicketView from "./FullTicketView";
 const TicketContainer = (props) => {
   const [ticketSearch, setTicketSearch] = useState("");
   const [statusSearch, setStatusSearch] = useState("Active");
-  const [userSearch, setUserSearch] = useState("Team")
-  const [teamUsers, setTeamUsers] = useState([])
+  const [userSearch, setUserSearch] = useState("Team");
+  const [teamUsers, setTeamUsers] = useState([]);
   const [viewTicket, setViewTicket] = useState(false);
   const [ticketID, setTicketID] = useState("");
   const [ticketData, setTicketData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ ticketsPerPage, setTicketsPerPage] = useState(10) 
+  const [ticketsPerPage, setTicketsPerPage] = useState(10);
 
-  useEffect(()=>{
-    axios.post("http://localhost:4000/getTickets",{
-      email: props.userEmail
-    }).then((response)=>{
-      
-      
-     setTicketData(response.data)
-      
-    })
-  },[])
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/getTickets", {
+        email: props.userEmail,
+      })
+      .then((response) => {
+        setTicketData(response.data);
+      });
+  }, []);
 
-  useEffect(()=>{
-    axios.post("http://localhost:4000/getTeamUsers",{
-      email:props.userEmail
-    }).then((response)=>{
-      setTeamUsers(response.data)
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/getTeamUsers", {
+        email: props.userEmail,
+      })
+      .then((response) => {
+        setTeamUsers(response.data);
+      });
+  }, []);
 
-    })
-  },[])
-  
+  const renderTickets = () => {
+    return currentTickets
+      .filter((prop) => {
+        if (
+          ticketSearch === "" &&
+          statusSearch == "Active" &&
+          prop.status != "Closed" &&
+          userSearch == "Team"
+        ) {
+          return prop;
+        }
+        if (
+          prop.title.toLowerCase().includes(ticketSearch.toLowerCase()) &&
+          prop.status.trim() == statusSearch &&
+          prop.assigned.trim() == userSearch.trim()
+        ) {
+          return prop;
+        }
+      })
+      .map((prop) => {
+        return (
+          <Ticket
+            key={prop._id}
+            _id={prop._id}
+            id={prop.id}
+            title={prop.title}
+            description={prop.description}
+            creator={prop.creator}
+            date={prop.date}
+            status={prop.status}
+            assigned={prop.assigned}
+            viewTicket={setViewTicketHandler}
+          ></Ticket>
+        );
+      });
+  };
 
   //calls from ticket.js
   const setViewTicketHandler = (ticket) => {
@@ -53,7 +89,7 @@ const TicketContainer = (props) => {
 
   //calls from FullTicketView.js
   const closeViewTicketHandler = () => {
-    console.log("close")
+    console.log("close");
     setViewTicket(false);
   };
 
@@ -63,17 +99,19 @@ const TicketContainer = (props) => {
     setStatusSearch(e.target.value);
   };
 
-  const userSearchHandler = (e)=>{
+  const userSearchHandler = (e) => {
     e.preventDefault();
-    setUserSearch(e.target.value)
-  }
+    setUserSearch(e.target.value);
+  };
 
-  console.log(userSearch)
-
+  console.log(userSearch);
 
   const indexOfLastTicket = currentPage * ticketsPerPage;
   const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
-  const currentTickets = ticketData.slice(indexOfFirstTicket, indexOfLastTicket)
+  const currentTickets = ticketData.slice(
+    indexOfFirstTicket,
+    indexOfLastTicket
+  );
 
   if (!viewTicket) {
     return (
@@ -103,43 +141,15 @@ const TicketContainer = (props) => {
             <Col>
               <Form.Select onChange={userSearchHandler}>
                 <option>Team</option>
-                {teamUsers.map((user)=>{
-                  return(<option key={user}>{user}</option>)
+                {teamUsers.map((user) => {
+                  return <option key={user}>{user}</option>;
                 })}
               </Form.Select>
             </Col>
           </Row>
         </Form>
         <div className={classes.ticket_container}>
-          {currentTickets
-            .filter((prop) => {
-              if ((ticketSearch === "") && (statusSearch == "Active") && (prop.status != "Closed") && (userSearch == "Team")) {
-                return prop;
-              } if (
-                (prop.title.toLowerCase().includes(ticketSearch.toLowerCase())) && (prop.status.trim() == statusSearch) && (prop.assigned.trim() == userSearch.trim())
-              ) { 
-                return prop;
-              }
-
-            })
-            .map((prop) => {
-
-              
-              return (
-                <Ticket
-                  key={prop._id}
-                  _id={prop._id}
-                  id={prop.id}
-                  title={prop.title}
-                  description={prop.description}
-                  creator={prop.creator}
-                  date={prop.date}
-                  status={prop.status}
-                  assigned={prop.assigned}
-                  viewTicket={setViewTicketHandler}
-                ></Ticket>
-              );
-            })}
+          {renderTickets()}
         </div>
       </div>
     );
@@ -147,9 +157,12 @@ const TicketContainer = (props) => {
 
   if (viewTicket) {
     return (
-      <FullTicketView _id={ticketID} closeTicket={closeViewTicketHandler} userEmail={props.userEmail}/>
+      <FullTicketView
+        _id={ticketID}
+        closeTicket={closeViewTicketHandler}
+        userEmail={props.userEmail}
+      />
     );
   }
 };
-
 export default TicketContainer;

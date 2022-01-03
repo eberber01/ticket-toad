@@ -1,16 +1,11 @@
 import classes from  "./App.module.css";
 import { Button, Row, Col, Navbar, Container, ButtonGroup } from "react-bootstrap";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
-import TicketContainer from "./components/TicketContainer";
 import HomePage from "./components/HomePage"
 import LoginNavbar from "./components/LoginNavbar"
-import LoggedInNavbar from "./components/LoggedInNavbar"
-import Dashboard from "./components/Dashboard"
-import { propTypes } from "react-bootstrap/esm/Image";
-import ComponentControl from "./components/ComponentControl";
+import LoggedIn from "./components/LoggedIn";
 import Footer from "./components/Footer";
 import CreateAccount from "./components/CreateAccount";
 
@@ -84,7 +79,7 @@ function App() {
   if(user != null){
     return(
       <div>
-        <ComponentControl teamId= {team} userName={user} userEmail={userEmail} logout={logoutHandler}/>
+        <LoggedIn teamId= {team} userName={user} userEmail={userEmail} logout={logoutHandler}/>
       </div>
     )
   }

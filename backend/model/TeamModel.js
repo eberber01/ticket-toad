@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb";
+import { newToadCode } from "../services/toadAccessCode.js";
 import  mongoose  from "mongoose";
 const { Schema } = mongoose;
 
@@ -10,10 +10,6 @@ const TicketSchema = new Schema({
     description:{
         type:String,
         required: false 
-    },
-    comments:{
-        type: [Object],
-        default: []
     },
     creator:{
         type: String,
@@ -33,6 +29,7 @@ const TicketSchema = new Schema({
         default: Date.now()
     }
 })
+
 const TeamSchema = new Schema({
     name:{
         type: String,
@@ -51,6 +48,12 @@ const TeamSchema = new Schema({
         type: [ TicketSchema ],
         required:false,
        
+    },
+    accessCode: {
+        type: String,
+        required: true,
+        default: newToadCode()
+        
     }
     
 })
