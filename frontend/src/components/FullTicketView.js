@@ -29,7 +29,7 @@ const FullTicketView = (props) => {
   console.log(ticketId);
   useEffect(() => {
     axios
-      .post("https://git.heroku.com/ticket-toad.git/findTicket", {
+      .post("https://ticket-toad.herokuapp.com/findTicket", {
         _id: ticketId,
       })
       .then((response) => {
@@ -45,7 +45,7 @@ const FullTicketView = (props) => {
       });
 
     axios
-      .post("https://git.heroku.com/ticket-toad.git/getTeamUsers", {
+      .post("https://ticket-toad.herokuapp.com/getTeamUsers", {
         email: props.userEmail,
       })
       .then((response) => {
@@ -91,7 +91,7 @@ const FullTicketView = (props) => {
   };
 
   const updateTicket = () => {
-    axios.post("https://git.heroku.com/ticket-toad.git/updateTicket", {
+    axios.post("https://ticket-toad.herokuapp.com/updateTicket", {
       _id: ticketId,
       title: title,
       description: description,

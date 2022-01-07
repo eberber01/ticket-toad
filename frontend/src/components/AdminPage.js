@@ -23,7 +23,7 @@ const AdminPage = (props) => {
 
   useEffect(() => {
     axios
-      .post("https://git.heroku.com/ticket-toad.git/getTeamUsers", {
+      .post("https://ticket-toad.herokuapp.com/getTeamUsers", {
         email: admin,
       })
       .then((response) => {
@@ -33,7 +33,7 @@ const AdminPage = (props) => {
 
   useEffect(() => {
     axios
-      .post("https://git.heroku.com/ticket-toad.git/getAccessCode", {
+      .post("https://ticket-toad.herokuapp.com/getAccessCode", {
         email: admin,
       })
       .then((response) => {

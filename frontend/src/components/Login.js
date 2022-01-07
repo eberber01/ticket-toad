@@ -13,7 +13,7 @@ const Login = (props) => {
   const submitFormLogin = (e) => {
     e.preventDefault();
     axios
-      .post("https://git.heroku.com/ticket-toad.git/login", {
+      .post("https://ticket-toad.herokuapp.com/login", {
         email: enteredUsername,
         password: enteredPassword,
       })

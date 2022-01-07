@@ -15,7 +15,7 @@ const CreateAccount = (props) => {
   const submitFormLogin = (e) => {
     e.preventDefault();
     axios
-      .post("https://git.heroku.com/ticket-toad.git/createAccount", {
+      .post("https://ticket-toad.herokuapp.com/createAccount", {
         email: enteredUsername,
         password: enteredPassword,
         name: enteredName,

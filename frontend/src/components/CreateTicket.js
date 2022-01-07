@@ -13,7 +13,7 @@ const CreateTicket = (props) => {
 
 
     useEffect(()=>{
-      axios.post("https://git.heroku.com/ticket-toad.git/getTeamUsers",{
+      axios.post("https://ticket-toad.herokuapp.com/getTeamUsers",{
         email: props.userEmail
       }).then((response)=>{
         console.log(response.data)
@@ -49,7 +49,7 @@ const CreateTicket = (props) => {
   const createTicketHandler = () => {
       console.log("ticket created")
       console.log(ticketStatus)
-    axios.post("https://git.heroku.com/ticket-toad.git/createNewTicket", {
+    axios.post("https://ticket-toad.herokuapp.com/createNewTicket", {
       email: props.userEmail,
       ticketID: "0002",
       title: ticketTitle, 
