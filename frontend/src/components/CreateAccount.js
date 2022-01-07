@@ -1,38 +1,35 @@
-
-import react, { useState } from "react";
+import { useState } from "react";
 import classes from "./CreateAccount.module.css";
 
-import {
-  Button,
-  Row,
-  Col,
-  Navbar,
-  Container,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 import "react-bootstrap";
 import axios from "axios";
 
 const CreateAccount = (props) => {
   const [enteredUsername, setEnteredUsername] = useState("Enter Email");
   const [enteredPassword, setEnteredPassword] = useState("Password");
-  const [enteredName, setEnteredName] = useState("")
+  const [enteredName, setEnteredName] = useState("");
+  const [createAccountAlert, setCreateAccountAlert] = useState(false);
+  const [alertText, setAlertText] = useState("");
 
   const submitFormLogin = (e) => {
-    e.preventDefault()
-     axios.post("http://localhost:4000/createAccount",{
-       email: enteredUsername,
-       password: enteredPassword,
-       name: enteredName
-     }).then((response)=>{
-      
-      
-       
-      
-     }) 
-  
-    
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/createAccount", {
+        email: enteredUsername,
+        password: enteredPassword,
+        name: enteredName,
+      })
+      .then((response) => {
+        if (response.data.message) {
+          setCreateAccountAlert(true);
+          setAlertText(response.data.message);
+        }
+        if (response.data.accountCreated) {
+          console.log("account created");
+          props.login();
+        }
+      });
   };
 
   const setEnteredUsernameHandler = (event) => {
@@ -47,12 +44,12 @@ const CreateAccount = (props) => {
 
   const setEnteredNameHandler = (event) => {
     event.preventDefault();
-    setEnteredName(event.target.value)
-  }
+    setEnteredName(event.target.value);
+  };
   return (
     <div className={classes.createaccount_container}>
       <Form className={classes.login_form} onSubmit={submitFormLogin}>
-          <div></div>
+        <div></div>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -71,14 +68,15 @@ const CreateAccount = (props) => {
           />
         </Form.Group>
 
-
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Name</Form.Label>
-          <Form.Control
-            placeholder="Name"
-            onChange={setEnteredNameHandler}
-          />
+          <Form.Control placeholder="Name" onChange={setEnteredNameHandler} />
         </Form.Group>
+        {createAccountAlert ? (
+          <Alert variant="danger">{alertText}</Alert>
+        ) : (
+          <div></div>
+        )}
         <div>
           <Button variant="success" type="submit">
             Submit

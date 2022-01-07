@@ -28,8 +28,9 @@
     border-style: solid;
     border-width: .01rem;
     padding: 0% 0% 0% 2%;
-    width: 70%;
+    width: 60%;
     height: 100%;
+    overflow: hidden;
     
 }
 
@@ -51,7 +52,7 @@
     border-style: solid ;
 }
 .ticket_button {
-    width: 5%;
+    width: 15%;
     text-align: center;
 }
 

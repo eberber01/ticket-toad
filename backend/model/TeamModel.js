@@ -1,5 +1,7 @@
-import { newToadCode } from "../services/toadAccessCode.js";
+import { newToadCode } from "../services/newToadCode.js";
+import { newToadDate } from "../services/newToadDate.js";
 import  mongoose  from "mongoose";
+
 const { Schema } = mongoose;
 
 const TicketSchema = new Schema({
@@ -24,9 +26,9 @@ const TicketSchema = new Schema({
         required: false 
     },
     date:{
-        type: Date,
-        required: false,
-        default: Date.now()
+        type: String,
+        required: true,
+        default: newToadDate() 
     }
 })
 

@@ -1,10 +1,10 @@
-import react, { useState } from "react";
-import { Card, Button, Badge } from "react-bootstrap";
+import {  Button } from "react-bootstrap";
+import StatusBadge from "./StatusBadge";
 import classes from "./Ticket.module.css";
 
 const Ticket = (props) => {
   const setViewTicketHandler = () => {
-    console.log(props._id)
+    console.log(props._id);
     props.viewTicket({
       _id: props._id,
       id: props.id,
@@ -17,14 +17,14 @@ const Ticket = (props) => {
     });
   };
 
-
   const returnDescription = () => {
-   if(props.description.length > 105){
-     return props.description.slice(0, 105) + " ...."
-   } 
-   else{ return props.description}
-  }
-  
+    if (props.description.length > 105) {
+      return props.description.slice(0, 105) + " ....";
+    } else {
+      return props.description;
+    }
+  };
+
   return (
     <div className={classes.ticket}>
       <div className={classes.ticket_time}>{props.date}</div>
@@ -35,8 +35,9 @@ const Ticket = (props) => {
         <div>{returnDescription()}</div>
       </div>
       <div className={classes.ticket_statuscontainer}>
-        <div>{props.status}</div>
-
+        <div>
+          <StatusBadge>{props.status}</StatusBadge>
+        </div>
       </div>
       <div className={classes.ticket_button}>
         <Button variant="success" onClick={setViewTicketHandler}>

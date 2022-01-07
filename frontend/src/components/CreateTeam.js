@@ -1,12 +1,13 @@
 import axios from "axios";
-import react, { useState } from "react";
-import { Button, Modal, Card, Alert, Form } from "react-bootstrap";
-import { propTypes } from "react-bootstrap/esm/Image";
+import  { useState } from "react";
+import { Button, Alert, Form, Card } from "react-bootstrap";
 import classes from "./CreateTeam.module.css";
+
 function CreateTeam(props) {
-  const [show, setShow] = useState(true);
   const [teamName, setTeamName] = useState("");
   const [accessCode, setAccessCode] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertText, setAlertText] = useState("");
 
   const setTeamNameHandler = (e) => {
     e.preventDefault();
@@ -29,11 +30,19 @@ function CreateTeam(props) {
       });
   };
 
-  const joinTeamHandler = () => {
-    axios.post("http://localhost:4000/joinTeam",{
-      email: props.userEmail,
-      accessCode: accessCode
-    });
+  const joinTeamHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/joinTeam", {
+        email: props.userEmail,
+        accessCode: accessCode,
+      })
+      .then((response) => {
+        if (response.data.message) {
+          setAlert(true);
+          setAlertText(response.data.message);
+        }
+      });
   };
 
   return (
@@ -71,6 +80,7 @@ function CreateTeam(props) {
                 value={accessCode}
               />
             </Form.Group>
+            {alert ? (<Alert variant="danger">{alertText}</Alert>): (<div></div>)}
             <Button variant="success" type="submit">
               Submit
             </Button>

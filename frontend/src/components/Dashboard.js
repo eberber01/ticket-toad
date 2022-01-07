@@ -1,41 +1,35 @@
-import react, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Ticket from "./Ticket";
 import classes from "./Dashboard.module.css";
 import FullTicketView from "./FullTicketView";
 import axios from "axios";
-import { Spinner } from 'react-bootstrap'
 
 const Dashboard = (props) => {
   const [viewTicket, setViewTicket] = useState(false);
-  const [ticketID, setTicketID] = useState()
-  const [ticketData, setTicketData] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [ticketID, setTicketID] = useState();
+  const [ticketData, setTicketData] = useState([]);
   //calls from ticket.js
   const setViewTicketHandler = (ticket) => {
-    console.log(ticket._id)
+    console.log(ticket._id);
     setTicketID(ticket._id);
     setViewTicket(true);
   };
 
-
-  useEffect(()=>{
-    setLoading(true)
-    axios.post("http://localhost:4000/getTickets",{
-      email: props.userEmail
-    }).then((response)=>{
-  
-        console.log(response.data)
-      setTicketData(response.data)
-      setLoading(false)
-      
-    })
-  },[])
+  useEffect(() => {
+    axios
+      .post("http://localhost:4000/getTickets", {
+        email: props.userEmail,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setTicketData(response.data);
+      });
+  }, []);
 
   //calls from FullTicketView.js
   const closeViewTicketHandler = () => {
     setViewTicket(false);
   };
-
 
   if (!viewTicket) {
     return (
@@ -44,7 +38,10 @@ const Dashboard = (props) => {
         <div className={classes.dashboard_tickets}>
           {ticketData
             .filter((prop) => {
-              if (prop.assigned.toLowerCase().includes(props.userEmail)) {
+              if (
+                prop.assigned.toLowerCase().includes(props.userEmail) &&
+                prop.status != "Closed"
+              ) {
                 return prop;
               }
             })
@@ -70,15 +67,13 @@ const Dashboard = (props) => {
   }
 
   if (viewTicket) {
-      return(
-          
-        <FullTicketView
-          _id={ticketID}
-          closeTicket={closeViewTicketHandler}
-          userEmail={props.userEmail}
-        />
-
-      )
+    return (
+      <FullTicketView
+        _id={ticketID}
+        closeTicket={closeViewTicketHandler}
+        userEmail={props.userEmail}
+      />
+    );
   }
 };
 

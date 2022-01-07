@@ -13,7 +13,6 @@ const LoginNavbar = (props) => {
     <div className="App">
       <Navbar variant="dark" bg="dark">
         <Container variant="light">
-          <Navbar.Brand>Ticket Toad</Navbar.Brand>
           <Navbar.Toggle />
         </Container>
         <Button variant="success" onClick={loginPageHandler} style={{marginRight: "10%"}}>

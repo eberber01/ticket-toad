@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Row, Col, FloatingLabel, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import classes from "./CreateTicket.module.css";
 
 const CreateTicket = (props) => {
@@ -9,7 +9,7 @@ const CreateTicket = (props) => {
     const [ticketDescription, setTicketDescription] = useState("");
     const [ticketAssigned, setTicketAssigned] = useState(props.userEmail);
     const [ users, setUsers] = useState([])
-    const [ticketStatus, setTicketStatus] = useState("Active ");
+    const [ticketStatus, setTicketStatus] = useState("Active");
 
 
     useEffect(()=>{
@@ -102,7 +102,6 @@ const CreateTicket = (props) => {
               <option>Delivered</option>
               <option>Deployed</option>
               <option>Pending</option>
-              <option>Ordered</option>
               <option>Closed</option>
             </Form.Select>
           </Form.Group>

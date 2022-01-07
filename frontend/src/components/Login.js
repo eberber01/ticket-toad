@@ -1,15 +1,6 @@
-import react, { useState, useEffect } from "react";
+import { useState } from "react";
 import classes from "./Login.module.css";
-
-import {
-  Button,
-  Row,
-  Col,
-  Navbar,
-  Container,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Button, Form, Alert } from "react-bootstrap";
 import "react-bootstrap";
 import axios from "axios";
 
@@ -17,23 +8,24 @@ const Login = (props) => {
   const [enteredUsername, setEnteredUsername] = useState("Enter Email");
   const [enteredPassword, setEnteredPassword] = useState("Password");
   const [loginAlert, setLoginAlert] = useState(false);
-
-
+  const [alertText, setAlertText] = useState("");
 
   const submitFormLogin = (e) => {
-    e.preventDefault()
-     axios.post("http://localhost:4000/login",{
-       email: enteredUsername,
-       password: enteredPassword
-     }).then((response)=>{
-       if(response.data){
-
-      props.loginHandler(response.data);
-       }
-      
-     }) 
-  
-    
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/login", {
+        email: enteredUsername,
+        password: enteredPassword,
+      })
+      .then((response) => {
+        if (response.data.email) {
+          props.loginHandler(response.data);
+        }
+        if (response.data.login === false) {
+          setLoginAlert(true);
+          setAlertText(response.data.message);
+        }
+      });
   };
 
   const setEnteredUsernameHandler = (event) => {
@@ -66,7 +58,7 @@ const Login = (props) => {
             onChange={setEnteredPasswordHandler}
           />
         </Form.Group>
-          {loginAlert ? (<Alert variant="danger">Wrong password</Alert>):(<div></div>)}
+        {loginAlert ? <Alert variant="danger">{alertText}</Alert> : <div></div>}
         <div>
           <Button variant="success" type="submit">
             Submit
@@ -74,7 +66,13 @@ const Login = (props) => {
         </div>
 
         <Form.Text className="text-muted">
-          Not a user ? <a  className={classes.createaccount_link} onClick={props.createAccount}> Create an account </a>
+          Not a user ?
+          <p
+            className={classes.createaccount_link}
+            onClick={props.createAccount}
+          >
+            Create an account
+          </p>
         </Form.Text>
       </Form>
     </div>

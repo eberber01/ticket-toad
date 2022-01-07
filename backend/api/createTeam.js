@@ -2,14 +2,14 @@ import TeamModel from "../model/TeamModel.js";
 import UserModel from "../model/UserModel.js"
 
 
-export const createTeam = async (req, res) => {
-  await TeamModel.create({
+export const createTeam =  (req, res) => {
+   TeamModel.create({
     name: req.body.team,
     admin: req.body.email,
     users: req.body.email
   });
 
-  await UserModel.updateOne(
+  UserModel.updateOne(
     {
       email: req.body.email,
     },

@@ -1,5 +1,15 @@
 .homepage_container {
-    background-color: #198754;
+
     text-align: center;
-    padding: 30% 0%;
+    height: 50vh;
+
+}
+
+.homepage_logo{
+    font-size: 5rem;
+    margin-top:  15%;
+}
+.homepage_text{
+    font-size: 1.5rem;
+
 }

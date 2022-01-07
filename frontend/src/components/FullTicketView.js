@@ -1,70 +1,22 @@
 import axios from "axios";
 import react, { useState, useEffect } from "react";
-import {
-  InputGroup,
-  Form,
-  FormControl,
-  Row,
-  Col,
-  Button,
-  Modal,
-} from "react-bootstrap";
+import { Form, Row, Col, Button } from "react-bootstrap";
 import classes from "./FullTicketView.module.css";
-import { Comment } from "./Comment";
-import { CommentForm } from "./CommentForm";
+import { DeleteModal } from "./DeleteModal";
 
-function Example(props) {
-  const [show, setShow] = useState(false);
-  
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const deleteTicketHandler = () => {
-    axios.post("http://localhost:4000/deleteTicket", {
-      _id: props.ticketId,
-    });
-    props.closeTicket();
-  };
-
-  return (
-    <>
-      <Button variant="danger" onClick={handleShow}>
-        Delete
-      </Button>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Are you sure you want delete this ticket? </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>You will not be able to recover the data.</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="success" onClick={deleteTicketHandler}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-}
 const FullTicketView = (props) => {
   const [ticketId, setTicketId] = useState(props._id);
   const [assigned, setAssigned] = useState("");
   const [editTicket, setEditTicket] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [ticketNumber, setTicketNumber] = useState();
   const [status, setStatus] = useState();
   const [users, setUsers] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [statusList, setStatusList] = useState([
+  const [storedTitle, setStoredTitle] = useState("");
+  const [storedDescription, setStoredDescription] = useState("");
+  const [storedAssigned, setStoredAssigned] = useState("");
+  const [storedStatus, setStoredStatus] = useState("");
+  const statusList = [
     "Active",
     "Ordered",
     "Delivered",
@@ -72,20 +24,24 @@ const FullTicketView = (props) => {
     "Pending",
     "Ordered",
     "Closed",
-  ]);
-  console.log(ticketId)
+  ];
+
+  console.log(ticketId);
   useEffect(() => {
     axios
       .post("http://localhost:4000/findTicket", {
         _id: ticketId,
       })
       .then((response) => {
-        console.log(response.data);
-        setDescription(response.data.tickets[0].description);
-        setTitle(response.data.tickets[0].title);
-        setAssigned(response.data.tickets[0].assigned);
-        setStatus(response.data.tickets[0].status);
-        setTicketNumber(response.data.ticketID);
+        const ticket = response.data.tickets[0];
+        setDescription(ticket.description);
+        setTitle(ticket.title);
+        setAssigned(ticket.assigned);
+        setStatus(ticket.status);
+        setStoredDescription(ticket.description);
+        setStoredTitle(ticket.title);
+        setStoredAssigned(ticket.assigned);
+        setStoredStatus(ticket.status);
       });
 
     axios
@@ -102,11 +58,10 @@ const FullTicketView = (props) => {
     setEditTicket(true);
   };
   const cancelTicketChanges = () => {
-    console.log("pog");
-    setTitle(props.title);
-    setDescription(props.description);
-    console.log(title);
-
+    setTitle(storedTitle);
+    setDescription(storedDescription);
+    setAssigned(storedAssigned);
+    setStatus(storedStatus);
     setEditTicket(false);
   };
 
@@ -146,12 +101,11 @@ const FullTicketView = (props) => {
     props.closeTicket();
   };
 
-  /* ---------------------------- fix form edit bug --------------------------- */
   return (
     <div>
-      <div className={classes.ticket_title}>Ticket #{ticketNumber}</div>
+      <div className={classes.ticket_title}>Ticket</div>
       <div className={classes.ticket_container}>
-        {editTicket == false ? (
+        {editTicket === false ? (
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Title </Form.Label>
@@ -202,7 +156,7 @@ const FullTicketView = (props) => {
               controlId="exampleForm.ControlInput1"
               onChange={setTitleHandler}
             >
-              <Form.Label>Ticket {props.id} </Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control defaultValue={title} />
             </Form.Group>
             <Form.Group
@@ -224,7 +178,7 @@ const FullTicketView = (props) => {
                   <option>{assigned}</option>
                   {users
                     .filter((prop) => {
-                      if (prop != assigned) {
+                      if (prop !== assigned) {
                         return prop;
                       }
                     })
@@ -239,7 +193,7 @@ const FullTicketView = (props) => {
                   <option readOnly>{status}</option>
                   {statusList
                     .filter((list) => {
-                      if (list != status.trim()) {
+                      if (list !== status.trim()) {
                         return list;
                       }
                     })
@@ -249,31 +203,20 @@ const FullTicketView = (props) => {
                 </Form.Select>
               </Form.Group>
             </Row>
-            <Button variant="secondary" onClick={cancelTicketChanges}>
-              Cancel Changes
-            </Button>
-            <Button
-              variant="success"
-              style={{ marginLeft: "1%" }}
-              onClick={updateTicket}
-            >
-              Submit Changes
-            </Button>
-            <Example
-              ticketId={ticketId}
-              closeTicket={closeViewTicket}
-            ></Example>
+            <div className={classes.buttons}>
+              <Button variant="secondary" onClick={cancelTicketChanges}>
+                Cancel Changes
+              </Button>
+              <Button variant="success" onClick={updateTicket}>
+                Submit Changes
+              </Button>
+              <DeleteModal
+                ticketId={ticketId}
+                closeTicket={closeViewTicket}
+              ></DeleteModal>
+            </div>
           </Form>
         )}
-      </div>
-      <div>
-        <div>Comments</div>
-        <div className={classes.ticket_container}>
-          {comments.map((comment) => {
-            return <Comment title="pog" description="pog"></Comment>;
-          })}
-          <CommentForm userEmail={props.userEmail} ticketId={ticketId}></CommentForm>
-        </div>
       </div>
     </div>
   );

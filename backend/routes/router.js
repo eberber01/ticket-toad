@@ -9,6 +9,8 @@ import { findTicket } from "../api/findTicket.js";
 import { deleteTicket } from "../api/deleteTicket.js";
 import { createTeam } from "../api/createTeam.js";
 import { joinTeam } from "../api/joinTeam.js";
+import { checkAdmin } from "../api/checkAdmin.js";
+import { getAccessCode } from "../api/getAccessCode.js";
 
 const route = express.Router();
 
@@ -33,6 +35,10 @@ route.post("/deleteTicket", deleteTicket);
 route.post("/createTeam", createTeam);
 
 route.post("/joinTeam", joinTeam)
+
+route.post("/checkAdmin", checkAdmin)
+
+route.post("/getAccessCode", getAccessCode)
 
 // route.post("/createComment", (req, res) => {
 //   TeamModel.findByIdAndUpdate({

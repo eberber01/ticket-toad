@@ -24,3 +24,8 @@
     margin-top: 1%;
 
 }
+
+.buttons {
+    display: flex;
+    gap: 1%
+}
