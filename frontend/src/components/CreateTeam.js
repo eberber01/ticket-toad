@@ -31,7 +31,6 @@ function CreateTeam(props) {
   };
 
   const joinTeamHandler = (e) => {
-    e.preventDefault();
     axios
       .post("https://ticket-toad.herokuapp.com/joinTeam", {
         email: props.userEmail,
