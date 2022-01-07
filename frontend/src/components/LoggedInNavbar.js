@@ -7,7 +7,7 @@ const LoggedInNavbar = (props) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/checkAdmin", {
+      .post("https://git.heroku.com/ticket-toad.git/checkAdmin", {
         email: props.userEmail,
       })
       .then((response) => {

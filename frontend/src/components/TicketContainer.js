@@ -16,7 +16,7 @@ const TicketContainer = (props) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/getTickets", {
+      .post("https://git.heroku.com/ticket-toad.git/getTickets", {
         email: props.userEmail
       })
       .then((response) => {
@@ -26,7 +26,7 @@ const TicketContainer = (props) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/getTeamUsers", {
+      .post("https://git.heroku.com/ticket-toad.git/getTeamUsers", {
         email: props.userEmail
       })
       .then((response) => {

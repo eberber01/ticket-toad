@@ -17,7 +17,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:4000/getTickets", {
+      .post("https://git.heroku.com/ticket-toad.git/getTickets", {
         email: props.userEmail,
       })
       .then((response) => {

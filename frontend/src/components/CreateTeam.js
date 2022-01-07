@@ -21,7 +21,7 @@ function CreateTeam(props) {
 
   const createTeamHandler = () => {
     axios
-      .post("http://localhost:4000/createTeam", {
+      .post("https://git.heroku.com/ticket-toad.git/createTeam", {
         email: props.userEmail,
         team: teamName,
       })
@@ -33,7 +33,7 @@ function CreateTeam(props) {
   const joinTeamHandler = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/joinTeam", {
+      .post("https://git.heroku.com/ticket-toad.git/joinTeam", {
         email: props.userEmail,
         accessCode: accessCode,
       })

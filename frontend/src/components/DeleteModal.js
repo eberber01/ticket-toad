@@ -9,7 +9,7 @@ export const DeleteModal = (props) => {
   const handleShow = () => setShow(true);
 
   const deleteTicketHandler = () => {
-    axios.post("http://localhost:4000/deleteTicket", {
+    axios.post("https://git.heroku.com/ticket-toad.git/deleteTicket", {
       _id: props.ticketId,
     });
     props.closeTicket();
