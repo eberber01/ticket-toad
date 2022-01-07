@@ -4,7 +4,7 @@ Ticketing system to help you and your peers stay organized
 
 ## App
 
-Use the finished product [here](https://zealous-saha-93bf38.netlify.app)
+Use the finished app [here](https://zealous-saha-93bf38.netlify.app)
 
 ## Run Locally
 
