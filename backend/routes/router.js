@@ -40,17 +40,4 @@ route.post("/checkAdmin", checkAdmin)
 
 route.post("/getAccessCode", getAccessCode)
 
-// route.post("/createComment", (req, res) => {
-//   TeamModel.findByIdAndUpdate({
-
-//     "_id": req.body._id
-//   }, { $push :{ "tickets.$.comments": {
-//     title: req.body.title,
-//     description: req.body.description,
-//     user: req.body.user
-//   }}}, (err, obj)=>{
-//     console.log(obj)
-//   });
-// });
-
 export default route;
