@@ -2,9 +2,6 @@
 
 Ticketing system to help you and your peers stay organized
 
-## App
-
-Use the finished app [here](https://tickettoad.netlify.app)
 
 ## Run Locally
 
